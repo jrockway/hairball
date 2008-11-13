@@ -39,10 +39,10 @@
     (5am:finishes
       (setf user (make-instance 'user :username "upload-test")))
     (5am:finishes
-      (setf upload (start-upload user #P"/tmp/foo" )))
-    (5am:is (class-name (class-of user)) 'partial-upload)
+      (setf upload (start-upload user #P"/tmp/foo" )) "created upload ok")
+    (5am:is (eq (class-name (class-of upload)) 'partial-upload) "upload is partial")
     (5am:is (eq (car (pset-list (uploads user))) upload) "user has upload")
-    (5am:finishes (finish-upload upload))
+    (5am:finishes (finish-upload upload) "finish-upload lives")
     (5am:is (eq (class-name (class-of upload)) 'upload) "upload class changed"))
   (5am:is (eq
            (class-name
