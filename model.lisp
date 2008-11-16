@@ -8,13 +8,6 @@
    (uploads :accessor uploads :initform (make-pset)))
   (:index t))
 
-(defpclass download ()
-  ((downloader :initarg :downloader :accessor downloader :type user)
-   (download-time :initarg :download-time :accessor download-time :type integer
-                  :initform (get-universal-time))
-   (of :initarg :of :accessor download-of :type upload))
-  (:index t))
-
 (defpclass partial-upload ()
   ((creator :initarg :creator :accessor creator :type user)
    (location :initarg location :accessor location :type pathname)
@@ -26,6 +19,13 @@
   ((upload-completed :initarg :upload-completed :accessor upload-completed :type integer
                      :initform (get-universal-time))
    (downloads :accessor downloads :initform (make-pset)))
+  (:index t))
+
+(defpclass download ()
+  ((downloader :initarg :downloader :accessor downloader :type user)
+   (download-time :initarg :download-time :accessor download-time :type integer
+                  :initform (gqet-universal-time))
+   (of :initarg :of :accessor download-of :type upload))
   (:index t))
 
 (defun get-user (username)
