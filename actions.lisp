@@ -13,6 +13,13 @@
   (intern (format nil "~A" symbol) :keyword))
 
 (defmacro keyword-alist-bind (fields alist &body body)
+  "Bind each element of FIELD to an element in ALIST with its car equal to the
+keyword value of the element, then run BODY with those bindings.
+
+Given:
+   (keyword-alist-bind (a b (c 42)) '((:a . 1)(:b . 2)) (list a b c))
+
+The return value is (1 2 42)."
   (let ((alist-sym (gensym)))
     `(let ((,alist-sym ,alist))
        (let ,(loop for (k default)
