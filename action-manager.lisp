@@ -24,6 +24,7 @@
     (if (not path)
         (error (format nil "~A is not in the path dispatch table!" action))
         (setf path (car path)))
-    (format nil "http://~A~A"
-            (if (boundp '*request*) (server-addr) "test")
-            path)))
+    (if (not (boundp '*request*))
+        (format nil "http://test~A" path) ; for tests
+      (let ((scheme (if (ssl-p) "https" "http")))
+        (format nil "~A://~A~A" scheme (host) path)))))
