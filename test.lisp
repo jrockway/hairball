@@ -43,3 +43,21 @@
                     (car (pset-list (uploads (get-user "upload-test"))))))
        'upload)
       "class change stored to database ok"))
+
+(test action-manager "add-action, uri-for-action"
+  (let (*path-dispatch-table*)
+    (flet ((foo () "foo")
+           (bar () "bar")
+           (foo-bar () "foo-bar"))
+      (finishes (add-action "foo/bar" #'foo-bar))
+      (finishes (add-action "/foo" #'foo))
+      (finishes (add-action "bar" #'bar))
+      (is (string= (uri-for-action #'foo) "http://test/foo"))
+      (is (string= (uri-for-action #'foo-bar) "http://test/foo/bar"))
+      (is (string= (uri-for-action #'bar) "http://test/bar"))
+      (signals (simple-error) (uri-for-action (lambda ()))))
+
+    (let (handlers)
+      (finishes (setf handlers (get-action-handlers-1)))
+      (is (not (endp handlers)) "added some actions?")
+      (is (equal (caar handlers) "/foo/bar") "longest path is first"))))
