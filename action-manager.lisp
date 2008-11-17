@@ -8,8 +8,8 @@
     (setf prefix (format nil "/~A" prefix)))
   (push (cons prefix action) *path-dispatch-table*))
 
-;;; ensure that longest path matches first
 (defun compare-actions (a b)
+  ;; ensure that longest path matches first
   (> (length (car a)) (length (car b))))
 
 (defun get-action-handlers-1 ()
@@ -17,7 +17,7 @@
 
 (defun get-action-handlers ()
   (loop for (path . action) in (get-action-handlers-1)
-     do (create-prefix-dispatcher path action)))
+     collect (create-prefix-dispatcher path action)))
 
 (defun uri-for-action (action)
   (let ((path (rassoc action *path-dispatch-table*)))
