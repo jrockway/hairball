@@ -3,6 +3,9 @@
 (defvar *path-dispatch-table* nil
   "Alist of path => handler pairs")
 
+(defun clear-action-table ()
+  (setf *path-dispatch-table* nil))
+
 (defun add-action (prefix action)
   (when (not (eq (aref prefix 0) #\/))
     (setf prefix (format nil "/~A" prefix)))
